@@ -1,32 +1,35 @@
 #!/usr/bin/python3
-""" In a text file, there is a single character H.
-    Your text editor can execute only two operations in this file:
-    Copy All and Paste. Given a number n what is Minimum Operations
-    to get n characters
-"""
+'''The minimum operations coding challenge.
+'''
 
 
 def minOperations(n):
-    """
-    a function that calculates the fewest number of operations
-    needed to result in exactly n H characters in the file
-    args:
-        n: NUmber of charters to be displayed
-    return:
-          number of minimum operation
-    """
-    curr = 1
-    prev = 0
-    count = 0
-
-    while (curr < n):
-        empty_position = n - curr
-
-        if (empty_position % curr == 0):
-            prev = curr
-            curr += prev
-            count += 2
-        else:
-            curr += prev
-            count += 1
-    return count
+    '''Computes the fewest number of operations needed to result
+    in exactly n H characters.
+    '''
+    if not isinstance(n, int):
+        return 0
+    ops_count = 0
+    clipboard = 0
+    done = 1
+    # print('H', end='')
+    while done < n:
+        if clipboard == 0:
+            # init (the first copy all and paste)
+            clipboard = done
+            done += clipboard
+            ops_count += 2
+            # print('-(11)->{}'.format('H' * done), end='')
+        elif n - done > 0 and (n - done) % done == 0:
+            # copy all and paste
+            clipboard = done
+            done += clipboard
+            ops_count += 2
+            # print('-(11)->{}'.format('H' * done), end='')
+        elif clipboard > 0:
+            # paste
+            done += clipboard
+            ops_count += 1
+            # print('-(01)->{}'.format('H' * done), end='')
+    # print('')
+    return ops_count
